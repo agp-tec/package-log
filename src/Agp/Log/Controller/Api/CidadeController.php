@@ -11,11 +11,11 @@ namespace Agp\Modelo\Controller\Api;
 
 
 use Controller\Controller;
+use Facades\Model\Repository\CidadeRepository;
+use Facades\Model\Service\CidadeService;
 use Illuminate\Http\Request;
 use Model\Entity\Cidade;
 use Model\Resource\CidadeResource;
-use Facades\Model\Repository\CidadeRepository;
-use Facades\Model\Service\CidadeService;
 
 
 class CidadeController extends Controller

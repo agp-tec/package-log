@@ -10,11 +10,11 @@
 namespace Agp\Modelo\Model\Repository;
 
 
+use Agp\Modelo\Model\Entity\Pais;
 use App\Exception\CustomUnauthorizedException;
 use App\Helper\Datatable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
-use Agp\Modelo\Model\Entity\Pais;
 
 
 class PaisRepository  extends BaseRepository
@@ -33,7 +33,6 @@ class PaisRepository  extends BaseRepository
     public function procuraGenerica($expressao)
     {
         return Pais::query()
-            
             ->where(function ($query) use ($expressao) {
                 $query
                     ->orWhere('id','=',$expressao)

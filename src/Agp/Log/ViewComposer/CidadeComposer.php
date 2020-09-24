@@ -6,43 +6,43 @@ namespace Agp\Modelo\ViewComposer;
 
 use App\Helper\Datatable;
 use App\Helper\DatatableJSData;
-use Agp\Modelo\Model\Entity\Pais;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Model\Entity\Cidade;
 
 /**
- * Class PaisComposer
- * Contém os fragmentos de layout relacionados a pais
+ * Class CidadeComposer
+ * Contém os fragmentos de layout relacionados a cidade
  * @package ViewComposer
  */
-class PaisComposer
+class CidadeComposer
 {
     /**
      * Retorna as ações da listagem
      *
-     * @param mixed $pais Entidade pais ou null caso render == true
+     * @param mixed $cidade Entidade cidade ou null caso render == true
      * @param bool $render Se true, retorna o html com wildcards para ser substituido no JS da datatable
      * @return DatatableJSData|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Throwable
      */
-    public static function getActions($pais, $render) {
+    public static function getActions($cidade, $render) {
         if ($render) {
             $res = new DatatableJSData();
-            $res->data = view('pais.actions', compact('pais'))->render();
+            $res->data = view('cidade.actions', compact('cidade'))->render();
             return $res;
         }
-        return view('pais.actions',compact('pais'));
+        return view('cidade.actions',compact('cidade'));
     }
 
-    public static function getDatatable($id = 'pais') {
+    public static function getDatatable($id = 'cidade') {
         $datatable = new Datatable($id,false);
         $datatable->addIDColumn();
-        //TODO Dados gerados automaticamente. Altere de acordo com os dados da entidade Pais
-        PaisComposer::setColumnNomeDatatable($datatable);
+        //TODO Dados gerados automaticamente. Altere de acordo com os dados da entidade Cidade
+        CidadeComposer::setColumnNomeDatatable($datatable);
         $datatable->addActions('Ações')
             ->set('width',150)
             ->set('textAlign','center');
-        $datatable->setAjaxUrl(route('web.pais.datatable'));
-        return view('pais.datatable',compact('datatable'));
+        $datatable->setAjaxUrl(route('web.cidade.datatable'));
+        return view('cidade.datatable',compact('datatable'));
     }
 
     private static function setColumnNomeDatatable(&$datatable) {

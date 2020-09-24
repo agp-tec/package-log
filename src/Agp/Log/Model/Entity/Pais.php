@@ -11,9 +11,9 @@ namespace Agp\Modelo\Model\Entity;
 
 
 use Agp\Modelo\Model\Observer\PaisObserver;
-use Traits\ValidUserRegistry;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Traits\ValidUserRegistry;
 
 
 /**
@@ -23,24 +23,24 @@ use Iatstuti\Database\Support\CascadeSoftDeletes;
  *
  * id
  * Chave primária, auto incremental.
- * Tipo: int	 | Chave: PRI	 | Obrigatório: Sim	 | Extra: auto_increment
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Tipo: int     | Chave: PRI     | Obrigatório: Sim     | Extra: auto_increment
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * exonimo_portugues
  * Nome do pais em portugues.
- * Tipo: varchar(45)	 | Chave: 	 | Obrigatório: Sim	 | Extra: 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Tipo: varchar(45)     | Chave:     | Obrigatório: Sim     | Extra:
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * exonimo_ingles
  * Nome do pais em ingles (EUA).
- * Tipo: varchar(45)	 | Chave: 	 | Obrigatório: Não	 | Extra: 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Tipo: varchar(45)     | Chave:     | Obrigatório: Não     | Extra:
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * endonimo
  * Nome do pais no idioma nativo.
- * Tipo: varchar(45)	 | Chave: 	 | Obrigatório: Não	 | Extra: 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Tipo: varchar(45)     | Chave:     | Obrigatório: Não     | Extra:
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * imagem
  * Nome do arquivo de bandeira do pais.
- * Tipo: varchar(25)	 | Chave: 	 | Obrigatório: Não	 | Extra: 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Tipo: varchar(25)     | Chave:     | Obrigatório: Não     | Extra:
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 
 class Pais extends BaseModel

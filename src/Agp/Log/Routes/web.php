@@ -6,7 +6,7 @@ Route::group(['as' => 'web.', 'namespace' => 'Agp\Modelo\Controller\Web', 'middl
 });
 
 Route::get('home', function () {
-    return view('Modelo::cidade/index');
+    return view('Log::cidade/index');
 });
 
 ?>

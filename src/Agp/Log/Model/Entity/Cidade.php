@@ -4,9 +4,9 @@ namespace Agp\Modelo\Model\Entity;
 
 
 use Agp\Modelo\Model\Observer\CidadeObserver;
-use Traits\ValidUserRegistry;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Traits\ValidUserRegistry;
 
 
 /**
@@ -75,7 +75,7 @@ class Cidade extends BaseModel
 
     public function pais()
     {
-        return $this->hasMany('Agp/Modelo/src/app', 'adm_pais_id');
+        return $this->hasMany('Agp/Log/src/app', 'adm_pais_id');
     }
 
 }

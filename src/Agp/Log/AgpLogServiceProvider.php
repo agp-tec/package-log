@@ -4,7 +4,7 @@ namespace Agp\Modelo;
 
 use Illuminate\Support\ServiceProvider;
 
-class AgpModeloServiceProvider extends ServiceProvider
+class AgpLogServiceProvider extends ServiceProvider
 {
     public function boot()
     {
@@ -13,6 +13,6 @@ class AgpModeloServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->loadViewsFrom(__DIR__ . '/Views', 'Modelo');
+        $this->loadViewsFrom(__DIR__ . '/Views', 'Log');
     }
 }

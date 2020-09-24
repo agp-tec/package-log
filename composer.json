@@ -1,6 +1,6 @@
 {
-    "name": "agp/modelo",
-    "description": "Pacote modelo de Package",
+    "name": "agp/log",
+    "description": "Package para criação e coleta de registros do módulo Log.",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Agp\\Modelo\\AgpModeloServiceProvider"
+                "AgpLogServiceProvider"
             ]
         }
     }

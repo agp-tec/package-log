@@ -10,9 +10,8 @@
 namespace Agp\Modelo\Model\Observer;
 
 
-use App\Exception\CustomUnauthorizedException;
-use Agp\Modelo\Model\Entity\Pais;
 use Agp\Modelo\Utils\Log;
+use App\Exception\CustomUnauthorizedException;
 
 
 class PaisObserver extends BaseObserver
