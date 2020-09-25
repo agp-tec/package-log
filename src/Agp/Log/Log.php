@@ -184,7 +184,7 @@ class Log
             "empresa" => $this->empresa,
         ];
 
-        return $this->send('/tabela', $data)->json();
+        return $this->send('GET', '/tabela', $data)->json();
     }
 
     /**
@@ -197,7 +197,7 @@ class Log
     {
         if (!auth()->check() || !auth()->user())
             throw new Exception('USUARIO não logado');
-        return $this->send('acesso/' . auth()->user()->getKey(), [])->json();
+        return $this->send('GET', 'acesso/' . auth()->user()->getKey(), [])->json();
     }
 
     /**
@@ -216,6 +216,6 @@ class Log
             "adm_empresa_id" => $this->empresa,
         ];
 
-        return $this->send('/acesso', $data)->json();
+        return $this->send('GET', '/acesso', $data)->json();
     }
 }
