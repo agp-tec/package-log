@@ -213,12 +213,10 @@ class Log
     {
         if ($this->empresa == '')
             throw new Exception('EMPRESA não informado');
-
         $data = [
             "adm_aplicativo_id" => $this->app,
             "adm_empresa_id" => $this->empresa,
         ];
-
         $res = $this->send('GET', '/acesso', $data);
         if (($res->status() >= 200) && ($res->status() <= 299))
             return $res->object();
