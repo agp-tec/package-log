@@ -60,12 +60,12 @@ class Log
      */
     function __construct($tipo = 0, $data = '', $tabela = '', $empresaId = '')
     {
-        $this->init();
-
         $this->tipo = $tipo;
         $this->data = $data;
         $this->tabela = $tabela;
         $this->empresa = $empresaId;
+
+        $this->init();
     }
 
     /**
@@ -155,7 +155,7 @@ class Log
                 "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
                 "tabela" => $this->tabela
             ];
-            $this->send('POST', '/store', $data);
+            $this->send('POST', '/store', $data)->json();
         }
     }
 
