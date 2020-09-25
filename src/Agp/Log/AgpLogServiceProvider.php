@@ -8,11 +8,15 @@ class AgpLogServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+        $this->publishes([
+            __DIR__ . '/config/log.php' => config_path('log.php'),
+        ]);
+
+//        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
     }
 
     public function register()
     {
-        $this->loadViewsFrom(__DIR__ . '/Views', 'Log');
+//        $this->loadViewsFrom(__DIR__ . '/Views', 'Log');
     }
 }
