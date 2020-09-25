@@ -181,8 +181,10 @@ class Log
             "tabela" => $this->tabela,
             "empresa" => $this->empresa,
         ];
-
-        return $this->send('GET', '/tabela', $data)->json();
+        $res = $this->send('GET', '/tabela', $data);
+        if (($res->status() >= 200) && ($res->status() <= 299))
+            return $res->object();
+        return null;
     }
 
     /**
@@ -195,7 +197,10 @@ class Log
     {
         if (!auth()->check() || !auth()->user())
             throw new Exception('USUARIO não logado');
-        return $this->send('GET', 'acesso/' . auth()->user()->getKey(), [])->json();
+        $res = $this->send('GET', 'acesso/' . auth()->user()->getKey(), []);
+        if (($res->status() >= 200) && ($res->status() <= 299))
+            return $res->object();
+        return null;
     }
 
     /**
@@ -214,6 +219,9 @@ class Log
             "adm_empresa_id" => $this->empresa,
         ];
 
-        return $this->send('GET', '/acesso', $data)->json();
+        $res = $this->send('GET', '/acesso', $data);
+        if (($res->status() >= 200) && ($res->status() <= 299))
+            return $res->object();
+        return null;
     }
 }
