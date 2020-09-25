@@ -173,7 +173,6 @@ class Log
             throw new Exception('TABELA não informado');
         if ($this->empresa == '')
             throw new Exception('EMPRESA não informado');
-
         $data = [
             "app" => $this->app,
             "start" => $start,
