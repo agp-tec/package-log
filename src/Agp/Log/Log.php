@@ -5,12 +5,8 @@ namespace Agp\Log;
 
 
 use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Log
@@ -25,7 +21,7 @@ class Log
     /**
      * @var string
      */
-    private $descricao = '';
+    private $data = '';
     /**
      * @var string
      */
@@ -57,17 +53,17 @@ class Log
 
     /**
      * Log constructor.
-     * @param int $tipo Tipo do registro, sendo 0 informação, 1 adição, 2 alteração, 3 remoção, 4 segurança, 5 falha.
-     * @param string $descricao Mensagem.
+     * @param int $tipo Tipo do registro, sendo 0 informação, 1 adição, 2 alteração, 3 remoção, 4 segurança, 5 falha, 6 erro de sistema (log em tabela Log_Erro_Sistema).
+     * @param string $data Mensagem ou dump de erro.
      * @param string $tabela Tabela da entidade que aconteceu o log ou vazio para nenhuma.
      * @param string $empresaId ID da empresa para registra log. Se não informado utiliza empresa do usuário logado.
      */
-    function __construct($tipo = 0, $descricao = '', $tabela = '', $empresaId = '')
+    function __construct($tipo = 0, $data = '', $tabela = '', $empresaId = '')
     {
         $this->init();
 
         $this->tipo = $tipo;
-        $this->descricao = $descricao;
+        $this->data = $data;
         $this->tabela = $tabela;
         $this->empresa = $empresaId;
     }
@@ -96,26 +92,6 @@ class Log
         if ($this->tabela == '')
             $this->tabela = 'Sistema';
 
-    }
-
-    /**
-     * Cria registro de log
-     *
-     * @throws Exception
-     */
-    public function make()
-    {
-        $data = [
-            "adm_aplicativo_id" => $this->app,
-            "adm_empresa_id" => $this->empresa,
-            "usuario" => $this->usuario,
-            "descricao" => $this->descricao,
-            "tipo" => $this->tipo,
-            "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
-            "tabela" => $this->tabela
-        ];
-
-        $this->send('POST', '/store', $data);
     }
 
     /** Realiza comunicação com API
@@ -150,28 +126,39 @@ class Log
             throw new Exception('APP não informado');
         if ($this->token == '')
             throw new Exception('TOKEN não informado');
-        if ($this->descricao == '')
+        if ($this->data == '')
             throw new Exception('URI não informado');
     }
 
     /**
-     * Cria registro de log de erro para trace
+     * Cria registro de log
      *
-     * @param string $dump Dados para análise. Preferencialmente json.
      * @throws Exception
      */
-    public function error($dump)
+    public function make()
     {
-        $data = [
-            "adm_aplicativo_id" => $this->app,
-            "adm_empresa_id" => $this->empresa,
-            "usuario" => $this->usuario,
-            "dump" => $dump,
-            "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
-            "tabela" => $this->tabela
-        ];
-
-        $this->send('POST', '/erro-sistema/store', $data);
+        if ($this->tipo > 5) {
+            $data = [
+                "adm_aplicativo_id" => $this->app,
+                "adm_empresa_id" => $this->empresa,
+                "usuario" => $this->usuario,
+                "dump" => $this->data,
+                "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
+                "tabela" => $this->tabela
+            ];
+            $this->send('POST', '/erro-sistema/store', $data);
+        } else {
+            $data = [
+                "adm_aplicativo_id" => $this->app,
+                "adm_empresa_id" => $this->empresa,
+                "usuario" => $this->usuario,
+                "descricao" => $this->data,
+                "tipo" => $this->tipo,
+                "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
+                "tabela" => $this->tabela
+            ];
+            $this->send('POST', '/store', $data);
+        }
     }
 
     /**
