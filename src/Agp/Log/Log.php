@@ -197,7 +197,7 @@ class Log
     {
         if (!auth()->check() || !auth()->user())
             throw new Exception('USUARIO não logado');
-        $res = $this->send('GET', 'acesso/' . auth()->user()->getKey(), []);
+        $res = $this->send('GET', '/acesso/' . auth()->user()->getKey(), []);
         if (($res->status() >= 200) && ($res->status() <= 299))
             return $res->object();
         return null;
