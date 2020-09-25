@@ -1,6 +1,6 @@
 <?php
 
-namespace Agp\Modelo\Model\Entity;
+namespace Agp\Log\Model\Entity;
 
 use Agp\Modelo\Traits\SyncRelations;
 use Illuminate\Database\Eloquent\Model;

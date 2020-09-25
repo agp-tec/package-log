@@ -1,5 +1,5 @@
 <?php
-namespace Agp\Modelo\Traits;
+namespace Agp\Log\Traits;
 
 /**
  * Trait ValidUserRegistry
@@ -7,7 +7,8 @@ namespace Agp\Modelo\Traits;
  */
 trait ValidUserRegistry
 {
-    public function validUserRegistry(){
+    public function validUserRegistry()
+    {
         return $this->adm_empresa_id == auth()->user()->getAdmEmpresaId();
     }
 }

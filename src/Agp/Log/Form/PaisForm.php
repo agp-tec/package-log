@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Form;
+namespace Agp\Log\Form;
 
 
 use Kris\LaravelFormBuilder\Form;

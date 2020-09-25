@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Model\Repository;
+namespace Agp\Log\Model\Repository;
 
 
 use App\Exception\CustomUnauthorizedException;
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Model\Entity\Cidade;
 
 
-class CidadeRepository  extends BaseRepository
+class CidadeRepository extends BaseRepository
 {
     protected $className = Cidade::class;
 
@@ -33,7 +33,6 @@ class CidadeRepository  extends BaseRepository
     public function procuraGenerica($expressao)
     {
         return Cidade::query()
-            
             ->where(function ($query) use ($expressao) {
                 $query
                     ->orWhere('id','=',$expressao)

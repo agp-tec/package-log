@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Controller\Web;
+namespace Agp\Log\Controller\Web;
 
 
 use Agp\Modelo\Controller\Controller;

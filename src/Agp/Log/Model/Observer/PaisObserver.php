@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Model\Observer;
+namespace Agp\Log\Model\Observer;
 
 
 use Agp\Modelo\Utils\Log;

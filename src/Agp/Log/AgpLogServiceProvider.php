@@ -1,6 +1,6 @@
 <?php
 
-namespace Agp\Modelo;
+namespace Agp\Log;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Model\Service;
+namespace Agp\Log\Model\Service;
 
 
 class PaisService extends BaseService

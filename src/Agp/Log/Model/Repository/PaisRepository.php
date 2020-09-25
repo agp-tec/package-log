@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Model\Repository;
+namespace Agp\Log\Model\Repository;
 
 
 use Agp\Modelo\Model\Entity\Pais;
@@ -17,7 +17,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 
 
-class PaisRepository  extends BaseRepository
+class PaisRepository extends BaseRepository
 {
     protected $className = Pais::class;
 

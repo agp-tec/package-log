@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Agp\Modelo\ViewComposer;
+namespace Agp\Log\ViewComposer;
 
 
 use App\Helper\Datatable;

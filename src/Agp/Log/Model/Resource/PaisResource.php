@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Model\Resource;
+namespace Agp\Log\Model\Resource;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;

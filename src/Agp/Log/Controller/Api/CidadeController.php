@@ -7,7 +7,7 @@
  */
 
 
-namespace Agp\Modelo\Controller\Api;
+namespace Agp\Log\Controller\Api;
 
 
 use Controller\Controller;
