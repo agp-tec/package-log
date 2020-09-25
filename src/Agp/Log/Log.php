@@ -3,6 +3,7 @@
 
 namespace Agp\Log;
 
+
 use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -125,8 +126,6 @@ class Log
             throw new Exception('APP não informado');
         if ($this->token == '')
             throw new Exception('TOKEN não informado');
-        if ($this->data == '')
-            throw new Exception('URI não informado');
     }
 
     /**
