@@ -37,12 +37,10 @@
     </div>
     <!--end::Modal-->
 @else
-    <div class="card-body py-0 mb-5">
-        <div class="table-responsive">
-            <input class="form-control" id="generalSearch_{{$datatable->id}}" type="text" placeholder="Pesquisar...">
-            <div id="dt_{{$datatable->id}}">
+    <div class="table-responsive">
+        <input class="form-control" id="generalSearch_{{$datatable->id}}" type="text" placeholder="Pesquisar...">
+        <div id="dt_{{$datatable->id}}" class="card-body py-0 mb-5">
 
-            </div>
         </div>
     </div>
 @endif
@@ -51,21 +49,36 @@
     <script>
         //Os eventos window.onload são sobreescritos ou não funcionaram se chamar 2 vezes em lugares ou valores diferentes.
         //Por isso, o modal não funciona em uma página com outra datatable já carregada.
-        window.onload = function() {
+        window.onload = function () {
             var params = {!! $datatable !!};
             //Adiciona métodos função que não é possível adicionar no PHP
             params.search.input = $("#generalSearch_{{$datatable->id}}")
 
             var datatable = $('#dt_{{$datatable->id}}').KTDatatable(params);
+            datatable.getColumnByField('nome').template = function (row, index, datatable) {
+                var obj = {!! \App\ViewComposer\PessoaComposer::getWidget(null,true) !!};
+                var mapObj = {
+                    ___rownome: row.usuario.nome,
+                    ___rowsobrenome: row.usuario.sobrenome,
+                    ___rowemail: row.usuario.email,
+                    ___rowdoc: ((row.usuario.doc) ? row.usuario.doc : ''),
+                    ___rowimagem: row.usuario.imagem,
+                };
+                return (obj.data)
+                    .replace(/___rownome|___rowsobrenome|___rowemail|___rowdoc|___rowimagem/gi, function (matched) {
+                        return mapObj[matched];
+                    });
+            };
             var actions = datatable.getColumnByField('actions');
             if (actions) {
                 actions.template = function (row, index, datatable) {
-                    var obj = {!! \ViewComposer\CidadeComposer::getActions(null,true) !!};
+                    var obj = {!! \App\ViewComposer\PessoaComposer::getActions(null,true) !!};
                     var mapObj = {
-                        ___rowid: row.id
+                        ___rowid: row.id,
+                        ___rownome: row.nome
                     };
                     return (obj.data)
-                        .replace(/___rowid/gi, function (matched) {
+                        .replace(/___rowid|___rownome/gi, function (matched) {
                             return mapObj[matched];
                         });
                 };
