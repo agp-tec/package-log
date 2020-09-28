@@ -4,6 +4,7 @@
 namespace Agp\Log;
 
 
+use Agp\BaseUtils;
 use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -69,13 +70,33 @@ class Log
     }
 
     /**
+     * Retorna o IP da requisição na hierarquia: HTTP_X_REAL_IP, HTTP_CLIENT_IP, HTTP_X_FORWARDED_FOR, request()->ip()
+     */
+    private function getIpRequest()
+    {
+        if (!empty($_SERVER['HTTP_X_REAL_IP'])) return $_SERVER['HTTP_X_REAL_IP'];
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) return $_SERVER['HTTP_CLIENT_IP'];
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        return request()->ip();
+    }
+
+    /** Retorna o user agent como paremtro de api ou da requisição
+     * @return mixed
+     */
+    private function getUserAgent()
+    {
+        if (request()->get('client')) return request()->get('client')['user_agent']; //Se possuir client, é chamada de API
+        return request()->userAgent();
+    }
+
+    /**
      * Carrega variais inicias.
      */
     private function init()
     {
         $this->token = config('log.api_client_token');
         $this->uri = config('log.api_log');
-        $this->app = config('log.id_app');
+        $this->app = request()->app ? request()->app : config('log.id_app');
 
         $this->headers = [
             'Content-type' => 'application/json',
@@ -126,6 +147,23 @@ class Log
             throw new Exception('APP não informado');
         if ($this->token == '')
             throw new Exception('TOKEN não informado');
+    }
+
+    /**
+     * Cria registro de acesso do usuario salvando os dados do navegador, ip, etc.
+     */
+    public function acesso()
+    {
+        $data = [
+            "acesso" => date_create()->format('Y-m-d H:i:s'),
+            "adm_aplicativo_id" => $this->app,
+            "adm_empresa_id" => $this->empresa,
+            "adm_pessoa_id" => $this->usuario,
+            "user_agent" => $this->getUserAgent(),
+            "ip" => $this->getIpRequest(),
+        ];
+
+        $this->send('POST', '/acesso', $data);
     }
 
     /**
