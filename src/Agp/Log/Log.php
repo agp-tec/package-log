@@ -8,6 +8,7 @@ use Agp\BaseUtils;
 use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Swift_Message;
 
 /**
  * Class Log
@@ -54,8 +55,8 @@ class Log
 
     /**
      * Log constructor.
-     * @param int $tipo Tipo do registro, sendo 0 informação, 1 adição, 2 alteração, 3 remoção, 4 segurança, 5 falha, 6 erro de sistema (log em tabela Log_Erro_Sistema).
-     * @param string $data Mensagem ou dump de erro.
+     * @param int $tipo Tipo do registro, sendo 0 informação, 1 adição, 2 alteração, 3 remoção, 4 segurança, 5 falha, 6 erro de sistema (log em tabela Log_Erro_Sistema), 7 log de e-mail enviado.
+     * @param string|Swift_Message $data Mensagem ou dump de erro ou Email enviado
      * @param string $tabela Tabela da entidade que aconteceu o log ou vazio para nenhuma.
      * @param string $empresaId ID da empresa para registra log. Se não informado utiliza empresa do usuário logado.
      */
@@ -173,27 +174,39 @@ class Log
      */
     public function make()
     {
-        if ($this->tipo > 5) {
-            $data = [
-                "adm_aplicativo_id" => $this->app,
-                "adm_empresa_id" => $this->empresa,
-                "usuario" => $this->usuario,
-                "dump" => $this->data,
-                "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
-                "tabela" => $this->tabela
-            ];
-            $this->send('POST', '/erro-sistema/store', $data);
-        } else {
-            $data = [
-                "adm_aplicativo_id" => $this->app,
-                "adm_empresa_id" => $this->empresa,
-                "usuario" => $this->usuario,
-                "descricao" => $this->data,
-                "tipo" => $this->tipo,
-                "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
-                "tabela" => $this->tabela
-            ];
-            $this->send('POST', '/store', $data)->json();
+        switch ($this->tipo) {
+            case 6:
+                $data = [
+                    "adm_aplicativo_id" => $this->app,
+                    "adm_empresa_id" => $this->empresa,
+                    "usuario" => $this->usuario,
+                    "dump" => $this->data,
+                    "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
+                    "tabela" => $this->tabela
+                ];
+                $this->send('POST', '/erro-sistema/store', $data);
+                break;
+            case 7:
+                $data = [
+                    "from" => json_encode($this->data->getFrom()),
+                    "to" => json_encode($this->data->getTo()),
+                    "subject" => $this->data->getSubject(),
+                    "body" => $this->data->getBody(),
+                    "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
+                ];
+                $this->send('POST', '/email/store', $data);
+                break;
+            default:
+                $data = [
+                    "adm_aplicativo_id" => $this->app,
+                    "adm_empresa_id" => $this->empresa,
+                    "usuario" => $this->usuario,
+                    "descricao" => $this->data,
+                    "tipo" => $this->tipo,
+                    "ocorrencia" => date_create()->format('Y-m-d H:i:s'),
+                    "tabela" => $this->tabela
+                ];
+                $this->send('POST', '/store', $data)->json();
         }
     }
 
