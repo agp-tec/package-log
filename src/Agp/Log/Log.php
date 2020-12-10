@@ -290,6 +290,7 @@ class Log
         $arr['url'] = url()->current();
         $arr['code'] = method_exists($exception, 'getCode') ? $exception->getCode() : 'No method';
         $arr['message'] = method_exists($exception, 'getMessage') ? $exception->getMessage() : 'No method';
+        $arr['request'] = request()->all();
         if ($exception instanceof ValidationException)
             $arr['errors'] = $exception->errors();
         elseif ($exception instanceof CustomException)
