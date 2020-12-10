@@ -290,11 +290,11 @@ class Log
         $arr['exception'] = get_class($exception);
         $arr['message'] = method_exists($exception, 'getMessage') ? $exception->getMessage() : 'No method';
         $arr['code'] = method_exists($exception, 'getCode') ? $exception->getCode() : 'No method';
-        $arr['getTrace'] = method_exists($exception, 'getTrace') ? $exception->getTrace() : 'No method';
         if ($exception instanceof ValidationException)
             $arr['errors'] = $exception->errors();
         elseif ($exception instanceof CustomException)
             $arr['errors'] = 'Unauthorized at ' . url()->current();
-        LogJob::dispatch(new \Agp\Log\Log(6, json_encode($arr)));
+        $arr['trace'] = method_exists($exception, 'getTrace') ? $exception->getTrace() : 'No method';
+        LogJob::dispatch(new \Agp\Log\Log(6, json_encode($arr, 0, 1024)));
     }
 }
