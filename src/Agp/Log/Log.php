@@ -5,9 +5,12 @@ namespace Agp\Log;
 
 
 use Agp\BaseUtils;
+use Agp\Log\Jobs\LogJob;
+use App\Exception\CustomException;
 use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 use Swift_Message;
 
 /**
@@ -271,5 +274,27 @@ class Log
         if (($res->status() >= 200) && ($res->status() <= 299))
             return $res->object();
         return null;
+    }
+
+    /**
+     * Salva log de erro inesperado. Utilizado em App\Exceptions\Handle.php
+     *
+     * @param $exception
+     */
+    public static function handleException($exception)
+    {
+        if (($exception instanceof \Ignition\Exceptions\ViewException) || ($exception instanceof \Facade\Ignition\Exceptions\ViewException))
+            $exception = $exception->getPrevious();
+        $arr = array();
+        $arr['url'] = url()->current();
+        $arr['exception'] = get_class($exception);
+        $arr['message'] = method_exists($exception, 'getMessage') ? $exception->getMessage() : 'No method';
+        $arr['code'] = method_exists($exception, 'getCode') ? $exception->getCode() : 'No method';
+        $arr['getTrace'] = method_exists($exception, 'getTrace') ? $exception->getTrace() : 'No method';
+        if ($exception instanceof ValidationException)
+            $arr['errors'] = $exception->errors();
+        elseif ($exception instanceof CustomException)
+            $arr['errors'] = 'Unauthorized at ' . url()->current();
+        LogJob::dispatch(new \Agp\Log\Log(6, json_encode($arr)));
     }
 }
