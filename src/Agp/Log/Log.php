@@ -284,7 +284,8 @@ class Log
     public static function handleException($exception)
     {
         if (($exception instanceof \Ignition\Exceptions\ViewException) || ($exception instanceof \Facade\Ignition\Exceptions\ViewException))
-            $exception = $exception->getPrevious();
+            if ($exception->getPrevious())
+                $exception = $exception->getPrevious();
         $arr = array();
         $arr['url'] = url()->current();
         $arr['code'] = method_exists($exception, 'getCode') ? $exception->getCode() : 'No method';
