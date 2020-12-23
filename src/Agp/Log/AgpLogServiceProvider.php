@@ -18,6 +18,6 @@ class AgpLogServiceProvider extends ServiceProvider
 
     public function register()
     {
-        //$this->loadViewsFrom(__DIR__ . '/Views', 'Log');
+        $this->loadViewsFrom(__DIR__ . '/Views', 'Log');
     }
 }
