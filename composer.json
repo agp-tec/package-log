@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": ">=7.3",
+        "agp/base-utils": "^1.0",
         "swiftmailer/swiftmailer": "^6.2"
     },
     "minimum-stability": "dev",
