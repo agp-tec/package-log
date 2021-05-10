@@ -105,7 +105,7 @@ class Log
         ];
 
         $this->usuario = null;
-        if (auth()->check()) {
+        if (method_exists('auth') && auth()->check()) {
             $this->usuario = auth()->user()->getKey();
             if (method_exists(auth()->user(), 'getAdmEmpresaId') && ($this->empresa == ''))
                 $this->empresa = auth()->user()->getAdmEmpresaId();
